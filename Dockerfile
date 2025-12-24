@@ -1,5 +1,5 @@
 # 使用指定的基础镜像
-FROM nvidia/opengl:base-ubuntu22.04
+FROM nvidia/cuda:12.2.2-devel-ubuntu22.04
 
 # 设置环境变量
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-setuptools \
     vim \
+    ncurses-term \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     /var/cache/apt/archives/* \
@@ -60,6 +61,7 @@ RUN git clone --depth 1 --branch release/2.1.0 https://github.com/isaac-sim/Isaa
 
 # 安装Isaac Lab依赖
 WORKDIR /workspace/IsaacLab
+ENV TERM=xterm
 RUN ./isaaclab.sh --install
 
 # 安装wandb和其他可选依赖（按需安装）
